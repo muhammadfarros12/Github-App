@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.farroos.githubapp.data.model.User
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         adapter = UserAdapter()
-        adapter.notifyDataSetChanged()
+        adapter.notifyDataSetChanged() // Tidak perlu menggunakan function ini karna sudah di set di adapter
 
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(data: User) {
@@ -68,11 +69,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showRecyclerView() {
-        binding.rcvUser.layoutManager = LinearLayoutManager(this@MainActivity)
+        // Lebih baik gunakan scope function agar tidak ada penggulangan code
+        binding.rcvUser.layoutManager = LinearLayoutManager(this@MainActivity) // Code ini bisa di set di XML contoh : app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         binding.rcvUser.adapter = adapter
         binding.rcvUser.setHasFixedSize(true)
     }
 
+    // Gunakan modifier private ketika tidak digunakan di class lain
     fun searchUser() {
         binding.apply {
             val query = edtQuery.text.toString()
