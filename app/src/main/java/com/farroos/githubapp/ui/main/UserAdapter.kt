@@ -34,7 +34,6 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
             // kegunaan binding.apply adalah agar kita tidak menulis berulang kali binding.(id item)
             binding.apply {
-                txtName.text = user.public_repos.toString()
                 Glide.with(itemView)
                     .load(user.avatar_url)
                     .transition(DrawableTransitionOptions.withCrossFade())

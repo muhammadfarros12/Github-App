@@ -21,21 +21,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_user"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="TextView" />
 
-    <TextView
-        android:id="@+id/txt_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/txt_username"
-        app:layout_constraintStart_toStartOf="@+id/txt_username" />
 </androidx.constraintlayout.widget.ConstraintLayout>

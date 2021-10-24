@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
     private const val BASE_URL = "https://api.github.com/"
-    private const val API_KEY = "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"
+    private const val API_KEY = "Masukkan Token anda"
 
     // Code dibawah digunakan untuk menghadle network
     private val client by lazy {
@@ -28,7 +28,6 @@ object RetrofitClient {
     var retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
-//        .client(client) Untuk menggunakan cukup gunakan .client()
         .build()
 
     val apiInstance = retrofit.create(Api::class.java)

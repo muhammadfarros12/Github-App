@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         adapter = UserAdapter()
-        adapter.notifyDataSetChanged() // Tidak perlu menggunakan function ini karna sudah di set di adapter
+        adapter.notifyDataSetChanged()
 
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(data: User) {
@@ -69,14 +69,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showRecyclerView() {
-        // Lebih baik gunakan scope function agar tidak ada penggulangan code
-        binding.rcvUser.layoutManager = LinearLayoutManager(this@MainActivity) // Code ini bisa di set di XML contoh : app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        binding.rcvUser.layoutManager = LinearLayoutManager(this@MainActivity)
         binding.rcvUser.adapter = adapter
         binding.rcvUser.setHasFixedSize(true)
     }
 
-    // Gunakan modifier private ketika tidak digunakan di class lain
-    fun searchUser() {
+    private fun searchUser() {
         binding.apply {
             val query = edtQuery.text.toString()
             if (query.isEmpty()) return
