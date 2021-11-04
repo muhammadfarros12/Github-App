@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
     private const val BASE_URL = "https://api.github.com/"
-    private const val API_KEY = "Masukkan Token anda"
+    private const val API_KEY = "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"
 
     // Code dibawah digunakan untuk menghadle network
     private val client by lazy {

@@ -11,7 +11,7 @@ import retrofit2.http.Query
 
 interface Api {
 
-//    @Headers("Authorization: token github")
+//    @Headers("Authorization: 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")
 //    dihapus dikarenakan udah diwakili di Object RetrofitClient
     @GET("search/users")
     fun getSearchUsers(

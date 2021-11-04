@@ -1,18 +1,33 @@
 package com.farroos.githubapp.ui.detail.viewmodel
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.farroos.githubapp.api.RetrofitClient
+import com.farroos.githubapp.data.local.FavoriteUser
+import com.farroos.githubapp.data.local.FavoriteUserDao
+import com.farroos.githubapp.data.local.UserDatabase
 import com.farroos.githubapp.data.model.DetailUserResponse
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailUserViewModel : ViewModel() {
+class DetailUserViewModel(application: Application) : AndroidViewModel(application) {
 
     val user = MutableLiveData<DetailUserResponse>()
+
+    private var userDao: FavoriteUserDao?
+    private var userDb: UserDatabase?
+
+    init {
+        userDb = UserDatabase.getDatabase(application)
+        userDao = userDb?.favoriteUserDao()
+    }
 
     fun setUserDetail(username: String) {
         RetrofitClient.apiInstance
@@ -37,4 +52,23 @@ class DetailUserViewModel : ViewModel() {
     fun getUserDetail(): LiveData<DetailUserResponse> {
         return user
     }
+
+    fun addToFavorite(username: String, id: Int){
+        CoroutineScope(Dispatchers.IO).launch {
+            val user = FavoriteUser(
+                id,
+                username
+            )
+            userDao?.addFavorite(user)
+        }
+    }
+
+    suspend fun checkedUser(id: Int) = userDao?.checkUser(id)
+
+    fun removeFromFavorite(id: Int){
+        CoroutineScope(Dispatchers.IO).launch {
+            userDao?.removeFromFavorite(id)
+        }
+    }
+
 }
