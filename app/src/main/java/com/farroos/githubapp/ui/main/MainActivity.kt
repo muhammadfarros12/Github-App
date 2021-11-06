@@ -3,14 +3,18 @@ package com.farroos.githubapp.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.farroos.githubapp.R
 import com.farroos.githubapp.data.model.User
 import com.farroos.githubapp.databinding.ActivityMainBinding
 import com.farroos.githubapp.ui.detail.DetailUserActivity
+import com.farroos.githubapp.ui.favorite.FavoriteActivity
+import com.farroos.githubapp.ui.nightMode.NightModeActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,6 +36,7 @@ class MainActivity : AppCompatActivity() {
                 Intent(this@MainActivity, DetailUserActivity::class.java).also {
                     it.putExtra(DetailUserActivity.EXTRA_USERNAME, data.login)
                     it.putExtra(DetailUserActivity.EXTRA_ID, data.id)
+                    it.putExtra(DetailUserActivity.EXTRA_AVATAR, data.avatar_url)
                     startActivity(it)
                 }
             }
@@ -90,6 +95,29 @@ class MainActivity : AppCompatActivity() {
         } else {
             binding.progressBar.visibility = View.GONE
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.option_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.favorite_menu -> {
+                Intent(this, FavoriteActivity::class.java).also {
+                    startActivity(it)
+                }
+            }
+
+            R.id.night_mode -> {
+                Intent(this, NightModeActivity::class.java).also {
+                    startActivity(it)
+                }
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

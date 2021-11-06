@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.farroos.githubapp.R
 import com.farroos.githubapp.databinding.ActivityDetailUserBinding
-import com.farroos.githubapp.ui.detail.viewmodel.DetailUserViewModel
+import com.farroos.githubapp.ui.detail.viewModel.DetailUserViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
@@ -23,6 +23,7 @@ class DetailUserActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_USERNAME = "extra_username"
         const val EXTRA_ID = "extra_id"
+        const val EXTRA_AVATAR = "extra_avatar"
 
         @StringRes
         private val TAB_TITLES = intArrayOf(
@@ -39,10 +40,13 @@ class DetailUserActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailUserBinding.inflate(layoutInflater)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        title = "Detail User"
         setContentView(binding.root)
 
         val username = intent.getStringExtra(EXTRA_USERNAME)
         val id = intent.getIntExtra(EXTRA_ID, 0)
+        val avatarUrl = intent.getStringExtra(EXTRA_AVATAR)
         // kita akan membuat untuk bundle yg berguna untuk mengirimkan data tanpa menggunakan API
         val bundle = Bundle()
         bundle.putString(EXTRA_USERNAME, username)
@@ -86,13 +90,15 @@ class DetailUserActivity : AppCompatActivity() {
             }
         }
 
-        binding.tglFavorite.setOnClickListener{
+        binding.tglFavorite.setOnClickListener {
             _isChecked = !_isChecked
-            if (_isChecked){
+            if (_isChecked) {
                 if (username != null) {
-                    viewModel.addToFavorite(username, id)
+                    if (avatarUrl != null) {
+                        viewModel.addToFavorite(username, id, avatarUrl)
+                    }
                 }
-            } else{
+            } else {
                 viewModel.removeFromFavorite(id)
             }
             binding.tglFavorite.isChecked = _isChecked
@@ -107,4 +113,10 @@ class DetailUserActivity : AppCompatActivity() {
         }.attach()
 
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
 }

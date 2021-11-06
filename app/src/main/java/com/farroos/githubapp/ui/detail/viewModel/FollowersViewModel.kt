@@ -1,4 +1,4 @@
-package com.farroos.githubapp.ui.detail.viewmodel
+package com.farroos.githubapp.ui.detail.viewModel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -10,19 +10,19 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class FollowingViewModel : ViewModel() {
-    val listFollowing = MutableLiveData<ArrayList<User>>()
+class FollowersViewModel : ViewModel() {
+    val listFollowers = MutableLiveData<ArrayList<User>>()
 
-    fun setListFollowing(username: String) {
+    fun setListFollowers(username: String) {
         RetrofitClient.apiInstance
-            .getFollowing(username)
+            .getFollowers(username)
             .enqueue(object : Callback<ArrayList<User>> {
                 override fun onResponse(
                     call: Call<ArrayList<User>>,
                     response: Response<ArrayList<User>>
                 ) {
                     if (response.isSuccessful) {
-                        listFollowing.postValue(response.body())
+                        listFollowers.postValue(response.body())
                     }
                 }
 
@@ -33,8 +33,8 @@ class FollowingViewModel : ViewModel() {
             })
     }
 
-    fun getListFollowing(): LiveData<ArrayList<User>> {
-        return listFollowing
+    fun getListFollowers(): LiveData<ArrayList<User>> {
+        return listFollowers
     }
 
 }

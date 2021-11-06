@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import retrofit2.http.DELETE
 
 @Dao
 interface FavoriteUserDao {
     @Insert
     suspend fun addFavorite(favoriteUser: FavoriteUser)
+
     @Query("SELECT * FROM favorite_user")
     fun getFavoriteUser(): LiveData<List<FavoriteUser>>
 

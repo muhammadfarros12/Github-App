@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.farroos.githubapp.R
 import com.farroos.githubapp.databinding.FragmentFollowBinding
-import com.farroos.githubapp.ui.detail.viewmodel.FollowingViewModel
+import com.farroos.githubapp.ui.detail.viewModel.FollowingViewModel
 import com.farroos.githubapp.ui.main.UserAdapter
 
 class FollowingFragment : Fragment(R.layout.fragment_follow) {
