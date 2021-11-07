@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19444444444444445" />
+        <entry key="app/src/main/res/layout/activity_night_mode.xml" value="0.20364583333333333" />
+        <entry key="app/src/main/res/layout/item_user.xml" value="0.25" />
       </map>
     </option>
   </component>

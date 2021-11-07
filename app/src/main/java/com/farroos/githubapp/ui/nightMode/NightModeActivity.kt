@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.farroos.githubapp.R
 import com.google.android.material.switchmaterial.SwitchMaterial
 
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+public val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class NightModeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
