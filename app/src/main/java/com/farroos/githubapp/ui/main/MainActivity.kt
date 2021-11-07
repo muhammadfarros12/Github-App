@@ -1,12 +1,18 @@
 package com.farroos.githubapp.ui.main
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.farroos.githubapp.R
@@ -14,7 +20,10 @@ import com.farroos.githubapp.data.model.User
 import com.farroos.githubapp.databinding.ActivityMainBinding
 import com.farroos.githubapp.ui.detail.DetailUserActivity
 import com.farroos.githubapp.ui.favorite.FavoriteActivity
-import com.farroos.githubapp.ui.nightMode.NightModeActivity
+import com.farroos.githubapp.ui.nightMode.*
+import com.google.android.material.switchmaterial.SwitchMaterial
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +36,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val switchTheme = findViewById<SwitchMaterial>(R.id.switch_theme)
+
+        val pref = SettingPreferences.getInstance(dataStore)
+        val mainViewModel = ViewModelProvider(this, ViewModelFactory(pref)).get(
+            MainViewModel::class.java
+        )
+        mainViewModel.getThemeSetting().observe(this, { isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                switchTheme.isChecked = true
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                switchTheme.isChecked = false
+            }
+        })
+
+        switchTheme.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            mainViewModel.saveThemeSetting(isChecked)
+        }
 
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()
@@ -109,13 +138,6 @@ class MainActivity : AppCompatActivity() {
                     startActivity(it)
                 }
             }
-
-            R.id.night_mode -> {
-                Intent(this, NightModeActivity::class.java).also {
-                    startActivity(it)
-                }
-            }
-
         }
         return super.onOptionsItemSelected(item)
     }
