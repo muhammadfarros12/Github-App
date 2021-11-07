@@ -1,5 +1,6 @@
 package com.farroos.githubapp.ui.main
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
@@ -7,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.farroos.githubapp.R
@@ -14,7 +16,7 @@ import com.farroos.githubapp.data.model.User
 import com.farroos.githubapp.databinding.ActivityMainBinding
 import com.farroos.githubapp.ui.detail.DetailUserActivity
 import com.farroos.githubapp.ui.favorite.FavoriteActivity
-import com.farroos.githubapp.ui.nightMode.NightModeActivity
+import com.farroos.githubapp.ui.nightMode.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +29,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val pref = SettingPreferences.getInstance(dataStore)
+        val mainViewModel = ViewModelProvider(this, ViewModelFactory(pref)).get(
+            MainViewModel::class.java
+        )
+        mainViewModel.getThemeSetting().observe(this, { isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        })
 
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()
