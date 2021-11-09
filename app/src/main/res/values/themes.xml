@@ -17,5 +17,9 @@
     <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:statusBarColor">@color/black</item>
     </style>
+
+    <style name="Theme.GithubApp.text">
+        <item name="android:textColor">#000</item>
+    </style>
     
 </resources>
